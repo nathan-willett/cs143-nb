@@ -16,12 +16,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * Description  A class representing the GUI used in the Baby Name Popularity 
  *              Ranking.
  * Project      Baby Name Popularity Ranking
- * Platform     jdk 1.8.0_241; NetBeans IDE 11.3; PC Windows 10
+ * Platform     jdk 1.8.0_241; NetBeans IDE 23; PC Windows 10
  * Course       CS 143
  * Hourse       3 hours and 22 minutes
- * Date         4/5/2021
+ * Date         
   History Log   7/18/2018, 5/7/2020
- * @author	<i>Niko Culevski</i>
+ * @author	<i>Nathan Willett</i>
  * @version 	%1% %2%
  * @see     	javax.swing.JFrame
  * @see         java.awt.Toolkit 
@@ -40,9 +40,9 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Constructor  BabyNamesGUI()-default constructor
      * Description  Create an instance of the GUI form, set the default
      *              JButton to be findJButton, set icon image, and center form.
-     * Date         4/5/2021
+     * Date         9/25/2024
      * History Log  7/18/2018, 5/7/2020
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
     *</pre>
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/    
     public BabyNamesGUI()
@@ -54,7 +54,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
         //this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/Images/BabyPenkaSmall.jpg"));        
         this.setLocationRelativeTo(null);   //center form
         nameJTextField.requestFocus();
-       
+        readNames();        // Read the data files on baby names and genders
     }
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
@@ -62,15 +62,56 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Description  Reads rankings of names from files and create HashMaps.  
      * Date         4/5/2021
      * History Log  7/18/2018, 5/7/2020
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @param       fileName String
      * @see         java.io.File
      * @see         java.util.Scanner
     *</pre>
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    private void readNames() 
-    {
-        
+    private void readNames() {
+        try {
+            String genderFile = "src/Data/Genders.txt";
+            Scanner input = new Scanner(System.in);
+            String fileName = "";
+            for (int i = 0; i < YEARS; i++) {
+                if (i == 9)
+                    fileName = "src/Data/Babynamesranking2010.txt";
+                else
+                    fileName = "src/Data/Babynamesranking200" + (i + 1) + ".txt";
+                
+                input = new Scanner(new File(fileName));
+                
+               // Create HashMaps for each year from data files
+               mapForBoy[i] = new HashMap<String, Integer>();
+               mapForGirl[i] = new HashMap<String, Integer>();
+               while (input.hasNext()) {
+                   int ranking = input.nextInt();       // get ranking
+                   String boyname = input.next();       // read boy's name
+                   input.nextInt();                     // skip the number of boys names (not assigned to anything)
+                   String girlname = input.next();      // read girl's name
+                   input.nextInt();                     // skip the number of girls names (not assigned to anything)
+                   
+                   // add each boy and girl name to their respective map
+                   mapForBoy[i].put(boyname, ranking);
+                   mapForGirl[i].put(girlname, ranking);
+               }
+            }
+            // fill in genderJComboBox with gender types from genderFile
+            input = new Scanner(new File(genderFile));
+            genderJComboBox.removeAllItems();
+            String gender = "";
+            while (input.hasNext()) {
+                gender = input.nextLine(); // get gender
+            }
+        }
+        catch(FileNotFoundException exp) {
+            JOptionPane.showMessageDialog(null, "Required files do not exist",
+                    "File Input Error", JOptionPane.WARNING_MESSAGE);
+            // Utilize JFileChooser to select file in current dir
+            JFileChooser chooser = new JFileChooser("src/Data");
+            // Filter results to show only .txt files
+            
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -258,7 +299,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      *<pre>
      * Method       clearJMenuItemActionPerformed()
      * Description  Event handler to clear the form and start anew. 
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/3/2020
      * History Log  7/18/2018     
     *</pre>
@@ -272,7 +313,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Method       printJMenuItemActionPerformed()
      * Description  Event handler to print the for as a GUI. Calls the
      *              PrintUtilities class printComponent method.
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/5/2021
      * History Log  7/18/2018, 4/3/2020
     *</pre>
@@ -286,7 +327,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Method       quitJMenuItemActionPerformed()
      * Description  Event handler to end the application. Calls quitButton
      *              doClick() method.
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/3/2020
      * History Log  7/18/2018     
     *</pre>
@@ -305,7 +346,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      *<pre>
      * Method       quitButtonActionPerformed()
      * Description  Event handler to end the application.
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/5/2021
      * History Log  7/18/2018, 4/5/2021    
     *</pre>
@@ -321,7 +362,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      *              created when the files are read for key (name typed by user)
      *              and finds corresponding value (ranking) if it is in the
      *              HashMap for the selected year.
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/5/2021
      * History Log  7/18/2018, 4/5/2021    
     *</pre>
@@ -335,7 +376,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Method       nameJTextFieldFocusLost()
      * Description  Event handler to change background color of JTextField if 
      *              input is illegal; otherwise reset to default white.
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * Date         4/5/2021
      * History Log  7/18/2018, 4/5/2021    
     *</pre>
@@ -352,7 +393,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
      * Date         4/5/2021    
      * History log  7/18/2018, 4/3/2020
      * @param       args are the command line strings
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      *</pre>
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     public static void main(String args[])
