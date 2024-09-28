@@ -366,7 +366,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
 
     private void aboutJMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_aboutJMenuItemActionPerformed
     {//GEN-HEADEREND:event_aboutJMenuItemActionPerformed
-        About aboutWindow = new About(this, true);
+        AboutForm aboutWindow = new AboutForm();
         aboutWindow.setVisible(true);
     }//GEN-LAST:event_aboutJMenuItemActionPerformed
     
