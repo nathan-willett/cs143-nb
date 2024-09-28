@@ -56,6 +56,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
         nameJTextField.requestFocus();
         readNames();        // Read the data files on baby names and genders
     }
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       readNames
@@ -69,22 +70,24 @@ public class BabyNamesGUI extends javax.swing.JFrame
     *</pre>
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     private void readNames() {
-        try {
+        try 
+        {
             String genderFile = "src/Data/Genders.txt";
             Scanner input = new Scanner(System.in);
             String fileName = "";
-            for (int i = 0; i < YEARS; i++) {
+            for (int i = 0; i < YEARS; i++) 
+            {
                 if (i == 9)
                     fileName = "src/Data/Babynamesranking2010.txt";
                 else
-                    fileName = "src/Data/Babynamesranking200" + (i + 1) + ".txt";
-                
+                    fileName = "src/Data/Babynamesranking200" + (i + 1) + ".txt";                
                 input = new Scanner(new File(fileName));
                 
                // Create HashMaps for each year from data files
                mapForBoy[i] = new HashMap<String, Integer>();
                mapForGirl[i] = new HashMap<String, Integer>();
-               while (input.hasNext()) {
+               while (input.hasNext()) 
+               {
                    int ranking = input.nextInt();       // get ranking
                    String boyname = input.next();       // read boy's name
                    input.nextInt();                     // skip the number of boys names (not assigned to anything)
@@ -100,19 +103,36 @@ public class BabyNamesGUI extends javax.swing.JFrame
             input = new Scanner(new File(genderFile));
             genderJComboBox.removeAllItems();
             String gender = "";
-            while (input.hasNext()) {
+            while (input.hasNext()) 
+            {
                 gender = input.nextLine(); // get gender
+                genderJComboBox.addItem(gender);
             }
         }
-        catch(FileNotFoundException exp) {
+        catch(FileNotFoundException exp) 
+        {
             JOptionPane.showMessageDialog(null, "Required files do not exist",
                     "File Input Error", JOptionPane.WARNING_MESSAGE);
-            // Utilize JFileChooser to select file in current dir
-            JFileChooser chooser = new JFileChooser("src/Data");
+            JFileChooser chooser = new JFileChooser("src/Data");    // Use JFileChooser to select file in current dir
             // Filter results to show only .txt files
-            
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Txt Files", "txt");
+            chooser.setFileFilter(filter);
+            int choice = chooser.showOpenDialog(null);
+            if (choice == JFileChooser.APPROVE_OPTION)
+            {
+                File chosenFile = chooser.getSelectedFile();
+                String fileName = "src/Data/" + chosenFile.getName();
+                //System.out.println("file - " + fileName);
+                readNames();
+            }
+            else
+            {
+                System.exit(0);
+            }
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -295,6 +315,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       clearJMenuItemActionPerformed()
@@ -306,8 +327,13 @@ public class BabyNamesGUI extends javax.swing.JFrame
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     private void clearJMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearJMenuItemActionPerformed
     {//GEN-HEADEREND:event_clearJMenuItemActionPerformed
-
+        yearJComboBox.setSelectedIndex(0);
+        genderJComboBox.setSelectedIndex(0);
+        nameJTextField.setBackground(white);
+        nameJTextField.setText("");
+        nameJTextField.requestFocus();
     }//GEN-LAST:event_clearJMenuItemActionPerformed
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       printJMenuItemActionPerformed()
@@ -322,6 +348,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
     {//GEN-HEADEREND:event_printJMenuItemActionPerformed
         PrintUtilities.printComponent(this);
     }//GEN-LAST:event_printJMenuItemActionPerformed
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       quitJMenuItemActionPerformed()
@@ -339,9 +366,10 @@ public class BabyNamesGUI extends javax.swing.JFrame
 
     private void aboutJMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_aboutJMenuItemActionPerformed
     {//GEN-HEADEREND:event_aboutJMenuItemActionPerformed
-//        About aboutWindow = new About(this, true);
-//        aboutWindow.setVisible(true);
+        About aboutWindow = new About(this, true);
+        aboutWindow.setVisible(true);
     }//GEN-LAST:event_aboutJMenuItemActionPerformed
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       quitButtonActionPerformed()
@@ -355,6 +383,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
     {//GEN-HEADEREND:event_quitButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_quitButtonActionPerformed
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       findJButtonActionPerformed()
@@ -369,8 +398,65 @@ public class BabyNamesGUI extends javax.swing.JFrame
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     private void findJButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_findJButtonActionPerformed
     {//GEN-HEADEREND:event_findJButtonActionPerformed
-        
+        int START_YEAR = 2001;
+        try
+        {
+            // get inputs
+            int year = Integer.parseInt(yearJComboBox.getSelectedItem().toString());
+            Integer value = null;
+            String gender = genderJComboBox.getSelectedItem().toString();
+            String name = nameJTextField.getText();
+            String message = "<html>Invalid Name--name must be at least 2 " +
+                    "legal characters long and no more than 40 characters. <br/>" +
+                    "Legal characters include leters, _, ', -.</html>";
+            if(!Validation.isValidName(name))
+            {
+                nameJTextField.requestFocus();
+                nameJTextField.setToolTipText(message);
+                resultJLabel.setText("");
+            }
+            else
+            {
+                message = "Legal characters include leters, _, ', -,";
+                nameJTextField.setToolTipText(message);
+                if (gender.equals("Male"))
+                {
+                    if (mapForBoy[year - START_YEAR].containsKey(name))
+                    {
+                    // get value for the key name
+                    value = mapForBoy[year - START_YEAR].get(name);
+                    resultJLabel.setText(gender + " " + name + " was ranked #" +
+                        ((value == null) ? 0 : value) +" in year " + year + ".");
+                    }
+                    else
+                    {
+                        resultJLabel.setText(gender + " " + name +
+                            " was not ranked in the year " + year + ".");
+                    }
+                }
+                else if (gender.equals("Female"))
+                {
+                    if (mapForGirl[year - START_YEAR].containsKey(name))
+                    {
+                        value = mapForGirl[year - START_YEAR].get(name);
+                        resultJLabel.setText(gender + " " + name + " was ranked #" +
+                                ((value == null) ? 0 : value) + " in year " + year + ".");
+                    }
+                    else
+                    {
+                        resultJLabel.setText(gender + " " + name +
+                                " was not ranked in year " + year + ".");
+                    }
+                }    
+            }  
+        }
+        catch(NumberFormatException exp)
+        {
+            JOptionPane.showMessageDialog(null, "Unable to read name",
+                    "Input Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_findJButtonActionPerformed
+    
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *<pre>
      * Method       nameJTextFieldFocusLost()
@@ -383,7 +469,12 @@ public class BabyNamesGUI extends javax.swing.JFrame
     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     private void nameJTextFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_nameJTextFieldFocusLost
     {//GEN-HEADEREND:event_nameJTextFieldFocusLost
-  
+        // Set background textfield color
+        String input = nameJTextField.getText();
+        if(Validation.isValidName(input))
+            nameJTextField.setBackground(white);
+        else
+            nameJTextField.setBackground(pink);
     }//GEN-LAST:event_nameJTextFieldFocusLost
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -399,8 +490,8 @@ public class BabyNamesGUI extends javax.swing.JFrame
     public static void main(String args[])
     {
         // Show splash screen
-//        Splash mySplash = new Splash(4000);     // duration = 5 seconds
-//        mySplash.showSplash();                  // show splash screen        
+        Splash mySplash = new Splash(4000);     // duration = 5 seconds
+        mySplash.showSplash();                  // show splash screen        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -434,6 +525,7 @@ public class BabyNamesGUI extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
+            @Override
             public void run()
             {
                 new BabyNamesGUI().setVisible(true);

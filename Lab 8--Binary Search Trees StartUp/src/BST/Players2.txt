@@ -1,0 +1,6 @@
+Ka Ho Cheung,18,1000.0
+Bender William,18,1000.0
+Niko Culevski,70,8000.0
+Cao Nguyen,20,1000.0
+Jui Chun Chou,26,1000.0
+Keerthi Vethanayagam,20,1000.0

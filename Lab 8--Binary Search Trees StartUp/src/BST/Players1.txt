@@ -1,0 +1,10 @@
+Karentoo Munro,23,2600.0
+Micah Normile,18,9600.0
+Jiacong Zhou,20,1000.0
+Ariel Geminiano,19,36100.0
+Quan Tran,20,1000.0
+Kaiyo Nakashima,25,3400.0
+Lucila Garcia,19,65900.0
+Xian Shuo Zeng,18,2900.0
+Millie Brock,20,15600.0
+Unaid Muhammad,29,1000.0

@@ -7,7 +7,7 @@ import javax.swing.JTextField;
  * Class        Validation
  * File         Validation.java
  * Description  Validates entered values
- * @author      <i>Niko Culevski</i>
+ * @author      <i>Nathan Willett</i>
  * Environment  PC, Windows Vista Business, jdk 7.0, NetBeans 7.3.1
  * Date         4/7/2020
  * History log  6/10/2013
@@ -24,7 +24,7 @@ public class Validation
      * Description  Validates that double value is entered
      * @return      boolean
      * @param       fieldValue String
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * Date         4/7/2020
@@ -47,7 +47,7 @@ public class Validation
      * @param       lower double, lower bound
      * @param       upper double, upper bound
      * @return      boolean
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * Date         4/7/2020
@@ -87,7 +87,7 @@ public class Validation
      * Description  Validates that entered value is an integer
      * @return      boolean
      * @param       fieldValue String, input
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * Date         4/7/2020
@@ -110,7 +110,7 @@ public class Validation
      * @param       fieldValue String, input
      * @param       lower int, lower bound
      * @param       upper int, upper bound
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * Date         4/7/2020
@@ -150,7 +150,7 @@ public class Validation
      * Description  Validates that JTextField is not empty
      * @return      boolean
      * @param       fieldValue: JTextField, imput
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
@@ -177,7 +177,7 @@ public class Validation
      * </pre>
      * @return      boolean
      * @param       input: JTextField, input
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
@@ -190,7 +190,7 @@ public class Validation
         if(input.equals("") || input.length() <= MIN_LENGTH || 
                 input.length() > MAX_LENGTH || input.equals(null))
             return false;
-        //Lettera and spaces in unicode only
+        //Letters and spaces in unicode only
         //String regx = "\\^[a-zA-Z '.-]*$"; //"\\^[a-zA-Z '.-]{3,30}$";      
         //String regx = "\\[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$";
         String regx =  "^[\\p{L} _.'-]+$";     //"^\\p{Lu}\\p{L}*(?:[\\s-]\\p{Lu}\\p{L}*)*$";
@@ -212,7 +212,7 @@ public class Validation
      * @param       input JTextField
      * @param       lower int
      * @param       upper int
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
@@ -249,7 +249,7 @@ public class Validation
      *</pre>
      * @return      boolean
      * @param       fieldValue JTextField
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
@@ -276,7 +276,7 @@ public class Validation
      *</pre>
      * @return      boolean
      * @param       fieldValue JTextField
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
@@ -297,7 +297,7 @@ public class Validation
      *</pre>
      * @return      true or false boolean
      * @param       fieldValue JTextField
-     * @author      <i>Niko Culevski</i>
+     * @author      <i>Nathan Willett</i>
      * @see         java.util.regex.Matcher
      * @see         java.util.regex.Pattern
      * @see         javax.swing.JTextField
