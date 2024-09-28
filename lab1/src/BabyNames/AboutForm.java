@@ -2,7 +2,7 @@ package BabyNames;
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 *<pre>
- * Class        About.java
+ * Class        AboutForm.java
  * Description  A class that displays an "About" page with details about the 
  *              BabyNames application.
  * Project      Baby Name Popularity Ranking
